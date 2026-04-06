@@ -187,6 +187,15 @@ internal func redirectURL(
     scope: String? = nil,
     version: Version? = nil
 ) -> URL {
+    // For provider flow (context != nil): use Universal Link from Info.plist if available
+    if context != nil,
+       let universalLink = Bundle.main.infoDictionary?["VK_UNIVERSAL_LINK"] as? String,
+       !universalLink.isEmpty,
+       let url = URL(string: universalLink)
+    {
+        return url
+    }
+
     var components = URLComponents.using(
         url: .serviceApplication(
             with: clientId,
