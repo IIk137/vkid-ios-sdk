@@ -55,18 +55,7 @@ internal final class ServiceAuthFlow: Component, AuthFlow {
             case .failure(.authCodeExchangedOnYourBackend):
                 completion(result)
             default:
-                switch self.deps.appStateProvider.state {
-                case .active:
-                    self.deps.webViewAuthFlow.authorize(
-                        with: presenter,
-                        completion: completion
-                    )
-                default:
-                    self.startWebViewAuthOnAppActivated(
-                        with: presenter,
-                        completion: completion
-                    )
-                }
+                completion(result)
             }
         }
     }
